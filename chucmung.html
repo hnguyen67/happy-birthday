@@ -411,30 +411,30 @@
         });
 
     </script>
-    <!-- Thêm vào ngay trước </body> -->
 <audio id="bgMusic" preload="auto" autoplay loop>
   <source src="audio/music.mp3" type="audio/mpeg">
   Trình duyệt của bạn không hỗ trợ phát nhạc.
 </audio>
 
 <script>
-  const music = document.getElementById('bgMusic');
-  window.addEventListener('load', () => music?.play().catch(() => {
-    console.warn("Trình duyệt chặn autoplay.");
-  }));
+  const m = document.getElementById('bgMusic');
+
+  // PC: thử autoplay khi trang load
+  window.addEventListener('load', () => {
+    m && m.play().catch(()=>{ /* nếu bị chặn thì chờ chạm */ });
+  });
+
+  // Mobile: phát khi chạm lần đầu
+  const kick = () => { m.play().catch(()=>{}); cleanup(); };
+  const cleanup = () => {
+    window.removeEventListener('touchstart', kick);
+    window.removeEventListener('pointerdown', kick);
+    window.removeEventListener('click', kick);
+  };
+  window.addEventListener('touchstart', kick, { once:true, passive:true });
+  window.addEventListener('pointerdown', kick, { once:true });
+  window.addEventListener('click', kick, { once:true });
 </script>
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const music = document.getElementById("bgMusic");
-      const playMusic = () => {
-        music.play().catch(()=>{});
-        document.removeEventListener("touchstart", playMusic);
-      };
-      document.addEventListener("touchstart", playMusic);
-    });
-  </script>
-</body>
-</html>
 
 </body>
 </html>
