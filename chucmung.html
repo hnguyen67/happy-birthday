@@ -423,6 +423,16 @@
     console.warn("Trình duyệt chặn autoplay.");
   }));
 </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const music = document.getElementById("bgMusic");
+      const playMusic = () => {
+        music.play().catch(()=>{});
+        document.removeEventListener("touchstart", playMusic);
+      };
+      document.addEventListener("touchstart", playMusic);
+    });
+  </script>
 </body>
 </html>
 
